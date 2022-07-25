@@ -1,0 +1,26 @@
+<template>
+	<div>
+		<button v-on:click="increament">Counter: {{ counter }}</button>
+	</div>
+</template>
+
+<script>
+export default {
+	data() {
+		return {
+			counter: 0,
+		};
+	},
+	method: {
+		increament() {
+			console.log(1);
+			this.counter++;
+		},
+	},
+	mounted() {
+		console.log("컴포넌트가 마운트 되었습니다.");
+	},
+};
+</script>
+
+<style lang="scss" scoped></style>
