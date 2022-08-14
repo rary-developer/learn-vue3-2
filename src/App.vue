@@ -7,7 +7,7 @@
 
 <script>
 import TheNav from "./components/TheNav.vue";
-import TheVue from "./components/TheVue.vue";
+import TheVue from "./components/TheView.vue";
 
 export default {
 	components: {
