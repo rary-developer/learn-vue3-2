@@ -1,102 +1,34 @@
 <template>
-	<div>
-		<div class="card">
-			<div class="card-body">
-				<!-- type : news, notice -->
-				<span class="badge bg-secondary">{{ typeName }}</span>
-				<h5 class="card-title red mt-2">{{ title }}</h5>
-				<p class="card-text">
-					{{ contents }}
-				</p>
-				<a href="#" class="btn" :class="isLikeClass" @click="toggleLike"
-					>좋아요</a
-				>
-				<!-- <br />
-				{{ obj }} -->
-			</div>
+	<div class="card">
+		<div v-if="$slots.header" class="card-header">
+			<slot name="header" header-message="헤더 메시지">#Header</slot>
+		</div>
+		<!-- {{$slots}} -->
+		<div v-if="$slots.default" class="card-body">
+			<slot :child-message="childMessage" hello-message="안녕하세요."
+				>#Body</slot
+			>
+		</div>
+		<div v-if="hasFooter" class="card-footer text-muted">
+			<slot name="footer" footer-message="푸터 메시지">#Footer</slot>
 		</div>
 	</div>
 </template>
 
 <script>
-//import { ref, useCssModule } from "vue";
-
 import { computed } from "vue";
+import { ref } from "vue";
 
 export default {
-	props: {
-		type: {
-			type: String,
-			default: "news",
-			validator: value => {
-				return ["news", "notice"].includes(value);
-			},
-		},
-		title: {
-			type: String,
-			required: true,
-		},
-		contents: {
-			type: String,
-			//required: true,
-		},
-		isLike: {
-			type: Boolean,
-			deault: false,
-		},
-		obj: {
-			type: Object,
-			default: () => {
-				return {};
-			},
-		},
-	},
-	emits: ["toggleLike"],
-	setup(props, context) {
-		//console.log("props.title : ", props.title);
-		const isLikeClass = computed(() =>
-			props.isLike ? "btn-danger" : "btn-outline-danger",
-		);
-		const typeName = computed(() =>
-			props.type === "news" ? "뉴스" : "공지사항",
-		);
-		// 하위 속성에서 상위 속성 변경하기 (불가능)
-		const toggleLike = () => {
-			// 	props.isLike = !props.isLike;
-			//context.emit("changeTitle");
-			context.emit("toggleLike");
-		};
-
-		//const style = useCssModule();
-		//console.log("style: ", style);
-
-		//console.log("AppCard setup()");
-
-		//const color = ref("red");
-		//color.value = "black";
+	setup(props, { slots }) {
+		const childMessage = ref("자식 컴포넌트 메시지");
+		const hasFooter = computed(() => !!slots.footer);
 		return {
-			isLikeClass,
-			typeName,
-			toggleLike,
+			childMessage,
+			hasFooter,
 		};
 	},
 };
 </script>
 
-<style></style>
-
-<!-- <style>
-.red {
-	color: v-bind(color) !important;
-}
-</style> -->
-<!-- <style scoped>
-.red {
-	color: red;
-}
-</style> -->
-<!-- <style module="classes">
-.red {
-	color: red;
-}
-</style> -->
+<style lang="scss" scoped></style>
